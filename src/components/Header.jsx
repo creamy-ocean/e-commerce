@@ -21,7 +21,7 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import { checkLogin, login, logout } from "../database/firebase";
+import { login, logout, onStateChanged } from "../database/firebase";
 
 const products = [
   {
@@ -69,7 +69,7 @@ export default function Example() {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    checkLogin(setUser);
+    onStateChanged(setUser);
   }, []);
 
   return (
@@ -203,6 +203,24 @@ export default function Example() {
                 >
                   <Menu.Items className="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
+                      {user.isAdmin && (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link to="admin">
+                              <a
+                                className={classNames(
+                                  active
+                                    ? "bg-gray-100 text-gray-900 cursor-pointer"
+                                    : "text-gray-700",
+                                  "block px-4 py-2 text-sm"
+                                )}
+                              >
+                                어드민
+                              </a>
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      )}
                       <Menu.Item>
                         {({ active }) => (
                           <a
@@ -285,12 +303,6 @@ export default function Example() {
                 </Disclosure>
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  장바구니
-                </a>
                 {!user ? (
                   <a
                     onClick={login}
@@ -299,12 +311,24 @@ export default function Example() {
                     로그인
                   </a>
                 ) : (
-                  <a
-                    onClick={logout}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    로그아웃
-                  </a>
+                  <>
+                    <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                      장바구니
+                    </a>
+                    {user.isAdmin && (
+                      <Link to="admin">
+                        <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                          어드민
+                        </a>
+                      </Link>
+                    )}
+                    <a
+                      onClick={logout}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      로그아웃
+                    </a>
+                  </>
                 )}
               </div>
             </div>
