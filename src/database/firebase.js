@@ -6,7 +6,9 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { getDatabase, ref, get } from "firebase/database";
+import { getDatabase, ref, get, set } from "firebase/database";
+import { getStorage, ref as sRef, uploadBytes } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 const provider = new GoogleAuthProvider();
 // import { getAnalytics } from "firebase/analytics";
@@ -16,11 +18,13 @@ const firebaseConfig = {
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getDatabase(app);
+const storage = getStorage(app);
 
 export function onStateChanged(callback) {
   onAuthStateChanged(auth, async (user) => {
@@ -38,7 +42,6 @@ export function logout() {
 }
 
 export async function checkAdmin(user) {
-  console.log(user);
   return get(ref(db, "admins"))
     .then((snapshot) => {
       if (snapshot.exists()) {
@@ -52,4 +55,22 @@ export async function checkAdmin(user) {
     .catch((error) => {
       console.error(error);
     });
+}
+
+export function addProduct({ name, category, price, desc, image }) {
+  const productId = uuidv4();
+  uploadImg(productId, image);
+  set(ref(db, `products/${productId}`), {
+    name,
+    category,
+    price,
+    desc,
+  });
+}
+
+async function uploadImg(productId, image) {
+  const storageRef = sRef(storage, productId);
+  uploadBytes(storageRef, image).then((snapshot) => {
+    console.log("업로드가 완료되었습니다");
+  });
 }
