@@ -7,11 +7,15 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { getDatabase, ref, get, set } from "firebase/database";
-import { getStorage, ref as sRef, uploadBytes } from "firebase/storage";
+import {
+  getStorage,
+  ref as sRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 
 const provider = new GoogleAuthProvider();
-// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -57,20 +61,53 @@ export async function checkAdmin(user) {
     });
 }
 
-export function addProduct({ name, category, price, desc, image }) {
-  const productId = uuidv4();
-  uploadImg(productId, image);
-  set(ref(db, `products/${productId}`), {
-    name,
-    category,
-    price,
-    desc,
+export function addProduct(product) {
+  const id = uuidv4();
+  uploadImg(id, product.image);
+  const parsedPrice = parseInt(product.price);
+  const OptionsArr = product.options.split(",");
+  set(ref(db, `products/${id}`), {
+    ...product,
+    id,
+    price: parsedPrice,
+    options: OptionsArr,
   });
 }
 
-async function uploadImg(productId, image) {
-  const storageRef = sRef(storage, productId);
+async function uploadImg(id, image) {
+  const storageRef = sRef(storage, id);
   uploadBytes(storageRef, image).then((snapshot) => {
     console.log("업로드가 완료되었습니다");
   });
+}
+
+export function getProducts() {
+  return get(ref(db, "products"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const products = Object.values(snapshot.val());
+        const productsWithImgs = Promise.all(
+          products.map(async (product) => {
+            const imgSrc = await getProductImg(product.id);
+            return { ...product, imgSrc };
+          })
+        );
+        return productsWithImgs;
+      } else {
+        return [];
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+async function getProductImg(id) {
+  return getDownloadURL(sRef(storage, `${id}`))
+    .then((url) => {
+      return url;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }

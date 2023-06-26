@@ -106,12 +106,12 @@ export default function Admin() {
                     value={values.name}
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="상품명을 입력하세요"
+                    required
                   />
                 </div>
               </div>
             </div>
-
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-4">
               <label
                 htmlFor="category"
                 className="block text-sm font-semibold leading-6 text-gray-900"
@@ -128,12 +128,11 @@ export default function Admin() {
                 >
                   <option>상의</option>
                   <option>하의</option>
-                  <option>악세서리</option>
+                  <option>액세서리</option>
                 </select>
               </div>
             </div>
-
-            <div className="col-span-full">
+            <div className="sm:col-span-4">
               <label
                 htmlFor="price"
                 className="block text-sm font-semibold leading-6 text-gray-900"
@@ -145,17 +144,40 @@ export default function Admin() {
                   <span className="text-gray-500 sm:text-sm">&#8361;</span>
                 </div>
                 <input
-                  type="text"
+                  type="number"
                   name="price"
                   id="price"
                   onChange={handleChange}
                   value={values.price}
                   className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   placeholder="0.00"
+                  required
                 />
               </div>
             </div>
-
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="options"
+                className="block text-sm font-semibold leading-6 text-gray-900"
+              >
+                상품 옵션
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
+                  <input
+                    type="text"
+                    name="options"
+                    id="options"
+                    onChange={handleChange}
+                    value={values.options}
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="상품 옵션을 입력하세요(예: S, M, L)"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
             <div className="col-span-full">
               <label
                 htmlFor="desc"
@@ -172,10 +194,10 @@ export default function Admin() {
                   value={values.desc}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   placeholder="상품 설명을 입력하세요"
+                  required
                 />
               </div>
             </div>
-
             <div className="col-span-full">
               <label
                 htmlFor="image"
@@ -214,6 +236,7 @@ export default function Admin() {
                         className="sr-only"
                         accept=".png, .jpg, .jpeg"
                         onChange={handleChange}
+                        required
                       />
                     </label>
                     <p className="pl-1">하거나 드래그 앤 드롭 하세요</p>

@@ -103,7 +103,7 @@ export default function Example() {
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-              <Link to="items">Product</Link>
+              <Link to="products">Products</Link>
               <ChevronDownIcon
                 className="h-5 w-5 flex-none text-gray-400"
                 aria-hidden="true"
@@ -277,7 +277,7 @@ export default function Example() {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        Product
+                        Products
                         <ChevronDownIcon
                           className={classNames(
                             open ? "rotate-180" : "",
