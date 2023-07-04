@@ -5,7 +5,7 @@ import Header from "../components/Header";
 
 export default function Root() {
   return (
-    <div>
+    <div className="h-full">
       <Header />
       <Outlet />
     </div>

@@ -14,6 +14,7 @@ import {
   FingerPrintIcon,
   SquaresPlusIcon,
   XMarkIcon,
+  ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -22,6 +23,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { login, logout, onStateChanged } from "../database/firebase";
+import CartStatus from "../pages/CartStatus";
 
 const products = [
   {
@@ -174,9 +176,7 @@ export default function Example() {
             </a>
           ) : (
             <>
-              <a className="text-sm font-semibold leading-6 text-gray-900 mr-3">
-                장바구니
-              </a>
+              <CartStatus />
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -221,6 +221,21 @@ export default function Example() {
                           )}
                         </Menu.Item>
                       )}
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="history"
+                            className={classNames(
+                              active
+                                ? "bg-gray-100 text-gray-900 cursor-pointer"
+                                : "text-gray-700",
+                              "block px-4 py-2 text-sm"
+                            )}
+                          >
+                            구매 내역
+                          </Link>
+                        )}
+                      </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           <a

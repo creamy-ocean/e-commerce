@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { getDatabase, ref, get, set } from "firebase/database";
+import { getDatabase, ref, get, set, remove } from "firebase/database";
 import {
   getStorage,
   ref as sRef,
@@ -109,5 +109,74 @@ async function getProductImg(id) {
     })
     .catch((error) => {
       console.log(error);
+    });
+}
+
+export function addOrUpdateCart(userId, product) {
+  const parsedPrice = parseInt(product.price);
+  set(ref(db, `carts/${userId}/${product.id}`), {
+    ...product,
+    price: parsedPrice,
+  });
+}
+
+export function getCart(userId) {
+  return get(ref(db, `carts/${userId}`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const products = Object.values(snapshot.val());
+        const productsWithImgs = Promise.all(
+          products.map(async (product) => {
+            const imgSrc = await getProductImg(product.id);
+            return { ...product, imgSrc };
+          })
+        );
+        return productsWithImgs;
+      } else {
+        return [];
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export function removeFromCart(userId, productId) {
+  return remove(ref(db, `carts/${userId}/${productId}`));
+}
+
+export function purchase(userId, products) {
+  products.map((product) => {
+    const parsedPrice = parseInt(product.price);
+    set(ref(db, `purchased/${userId}/${product.id}`), {
+      ...product,
+      price: parsedPrice,
+    });
+  });
+  removeCart(userId);
+}
+
+function removeCart(userId) {
+  return remove(ref(db, `carts/${userId}`));
+}
+
+export function getPurchaseHistory(userId) {
+  return get(ref(db, `purchased/${userId}`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const products = Object.values(snapshot.val());
+        const productsWithImgs = Promise.all(
+          products.map(async (product) => {
+            const imgSrc = await getProductImg(product.id);
+            return { ...product, imgSrc };
+          })
+        );
+        return productsWithImgs;
+      } else {
+        return [];
+      }
+    })
+    .catch((error) => {
+      console.error(error);
     });
 }

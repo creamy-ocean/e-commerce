@@ -2,21 +2,27 @@ import React from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { RadioGroup } from "@headlessui/react";
+import { useAuthContext } from "../context/AuthContext";
+import { addOrUpdateCart } from "../database/firebase";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function ProductDetail() {
+  const { uid } = useAuthContext();
+
   const {
     state: {
       product: { id, name, category, price, options, desc, imgSrc },
     },
   } = useLocation();
-  const [size, setSize] = useState("");
+  const [selected, setSelected] = useState("");
 
-  const onSubmit = (e) => {
+  const onClick = (e) => {
     e.preventDefault();
+    const product = { id, name, price, options: selected, quantity: 1 };
+    addOrUpdateCart(uid, product);
   };
 
   return (
@@ -59,58 +65,61 @@ export default function ProductDetail() {
               <h3 className="sr-only">상품 설명</h3>
               <p className="text-base text-gray-900">{desc}</p>
             </div>
-            <form onSubmit={onSubmit}>
-              <div className="mt-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-gray-900">사이즈</h3>
-                </div>
-                <RadioGroup value={size} onChange={setSize} className="mt-4">
-                  <RadioGroup.Label className="sr-only">
-                    사이즈를 골라주세요
-                  </RadioGroup.Label>
-                  <div className="grid grid-cols-5 gap-5 sm:grid-cols-5 lg:grid-cols-5">
-                    {options.length > 0 &&
-                      options.map((option) => (
-                        <RadioGroup.Option
-                          key={option}
-                          value={option}
-                          className={({ active }) =>
-                            classNames(
-                              (active ? "ring-2 ring-blue-500" : "",
-                              "cursor-pointer bg-white text-gray-900 shadow-sm group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6")
-                            )
-                          }
-                        >
-                          {({ checked }) => (
-                            <>
-                              <RadioGroup.Label as="span">
-                                {option}
-                              </RadioGroup.Label>
-                              <span
-                                className={classNames(
-                                  checked
-                                    ? "border-blue-500 border-2"
-                                    : "border-transparent",
-                                  "pointer-events-none absolute -inset-px rounded-md"
-                                )}
-                                aria-hidden="true"
-                              />
-                            </>
-                          )}
-                        </RadioGroup.Option>
-                      ))}
-                  </div>
-                </RadioGroup>
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className="rounded-md bg-blue-600 mt-6 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                  >
-                    장바구니에 담기
-                  </button>
-                </div>
+            <div className="mt-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-medium text-gray-900">사이즈</h3>
               </div>
-            </form>
+              <RadioGroup
+                value={selected}
+                onChange={setSelected}
+                className="mt-4"
+              >
+                <RadioGroup.Label className="sr-only">
+                  사이즈를 골라주세요
+                </RadioGroup.Label>
+                <div className="grid grid-cols-5 gap-5 sm:grid-cols-5 lg:grid-cols-5">
+                  {options.length > 0 &&
+                    options.map((option) => (
+                      <RadioGroup.Option
+                        key={option}
+                        value={option}
+                        className={({ active }) =>
+                          classNames(
+                            (active ? "ring-2 ring-blue-500" : "",
+                            "cursor-pointer bg-white text-gray-900 shadow-sm group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6")
+                          )
+                        }
+                      >
+                        {({ checked }) => (
+                          <>
+                            <RadioGroup.Label as="span">
+                              {option}
+                            </RadioGroup.Label>
+                            <span
+                              className={classNames(
+                                checked
+                                  ? "border-blue-500 border-2"
+                                  : "border-transparent",
+                                "pointer-events-none absolute -inset-px rounded-md"
+                              )}
+                              aria-hidden="true"
+                            />
+                          </>
+                        )}
+                      </RadioGroup.Option>
+                    ))}
+                </div>
+              </RadioGroup>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={onClick}
+                  className="rounded-md bg-blue-600 mt-6 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                >
+                  장바구니에 담기
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
