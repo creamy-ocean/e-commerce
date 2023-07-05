@@ -112,21 +112,6 @@ export default function Example() {
                       )}
                       <Menu.Item>
                         {({ active }) => (
-                          <Link
-                            to="history"
-                            className={classNames(
-                              active
-                                ? "bg-gray-100 text-gray-900 cursor-pointer"
-                                : "text-gray-700",
-                              "block px-4 py-2 text-sm"
-                            )}
-                          >
-                            구매 내역
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
                           <a
                             onClick={logout}
                             className={classNames(
@@ -187,12 +172,6 @@ export default function Example() {
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       장바구니
-                    </Link>
-                    <Link
-                      to="history"
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      구매 내역
                     </Link>
                     {user.isAdmin && (
                       <Link

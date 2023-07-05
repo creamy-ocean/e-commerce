@@ -2,7 +2,7 @@ import React from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { addOrUpdateCart, removeFromCart } from "../database/firebase";
 
-export default function ProductCard({ uid, product, purchased }) {
+export default function ProductCard({ uid, product }) {
   const handleMinus = () => {
     if (product.quantity < 2) return;
     addOrUpdateCart(uid, { ...product, quantity: product.quantity - 1 });
@@ -37,33 +37,27 @@ export default function ProductCard({ uid, product, purchased }) {
         <div className="flex flex-1 items-end justify-between text-sm">
           <div className="text-gray-500 flex justify-center">
             수량
-            {!purchased ? (
-              <>
-                <MinusIcon
-                  onClick={handleMinus}
-                  className="w-5 h-5 ml-2 mr-2 p-1 bg-gray-100 rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                />
-                {product.quantity}
-                <PlusIcon
-                  onClick={handlePlus}
-                  className="w-5 h-5 ml-2 p-1 bg-gray-100 rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                />
-              </>
-            ) : (
-              <p className="ml-1">{product.quantity}</p>
-            )}
+            <>
+              <MinusIcon
+                onClick={handleMinus}
+                className="w-5 h-5 ml-2 mr-2 p-1 bg-gray-100 rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
+              />
+              {product.quantity}
+              <PlusIcon
+                onClick={handlePlus}
+                className="w-5 h-5 ml-2 p-1 bg-gray-100 rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
+              />
+            </>
           </div>
-          {!purchased && (
-            <div className="flex">
-              <button
-                type="button"
-                onClick={handleDelete}
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                삭제
-              </button>
-            </div>
-          )}
+          <div className="flex">
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              삭제
+            </button>
+          </div>
         </div>
       </div>
     </li>

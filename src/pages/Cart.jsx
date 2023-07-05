@@ -57,7 +57,6 @@ export default function Cart() {
                   </div>
                 </div>
               </div>
-
               <CartPrice
                 totalPrice={totalPrice}
                 uid={uid}
