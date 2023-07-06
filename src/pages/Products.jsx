@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { getProducts } from "../database/firebase";
 import { useQuery } from "@tanstack/react-query";
 import Product from "./Product";
 
-export default function Products() {
+const Products = memo(function Products() {
   const {
     isLoading,
     isError,
@@ -18,6 +18,8 @@ export default function Products() {
   //     setProducts(products);
   //   })();
   // }, []);
+
+  console.log(products);
 
   return (
     <div className="bg-white">
@@ -44,4 +46,6 @@ export default function Products() {
       </div>
     </div>
   );
-}
+});
+
+export default Products;
