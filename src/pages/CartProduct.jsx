@@ -1,17 +1,25 @@
 import React from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
-import { addOrUpdateCart, removeFromCart } from "../database/firebase";
+import useCart from "../hooks/useCart";
 
-export default function ProductCard({ uid, product }) {
+export default function ProductCard({ product }) {
+  const { addOrUpdateToCart, removeFromCart } = useCart();
+
   const handleMinus = () => {
     if (product.quantity < 2) return;
-    addOrUpdateCart(uid, { ...product, quantity: product.quantity - 1 });
+    addOrUpdateToCart.mutate({
+      ...product,
+      quantity: product.quantity - 1,
+    });
   };
   const handlePlus = () => {
-    addOrUpdateCart(uid, { ...product, quantity: product.quantity + 1 });
+    addOrUpdateToCart.mutate({
+      ...product,
+      quantity: product.quantity + 1,
+    });
   };
   const handleDelete = () => {
-    removeFromCart(uid, product.id);
+    removeFromCart.mutate(product.id);
   };
 
   return (

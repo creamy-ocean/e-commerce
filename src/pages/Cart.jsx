@@ -1,19 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getCart } from "../database/firebase";
-import { useAuthContext } from "../context/AuthContext";
 import ProductCard from "./CartProduct";
 import CartPrice from "./CartPrice";
+import useCart from "../hooks/useCart";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Cart() {
   const { uid } = useAuthContext();
-
   const {
-    isLoading,
-    isError,
-    data: products,
-  } = useQuery(["cart"], () => getCart(uid));
+    cartObj: { isLoading, isError, data: products },
+  } = useCart();
 
   if (isLoading)
     return (
@@ -47,11 +43,7 @@ export default function Cart() {
                   <div className="flow-root">
                     <ul role="list" className="-my-6 divide-y divide-gray-200">
                       {products.map((product) => (
-                        <ProductCard
-                          key={product.id}
-                          uid={uid}
-                          product={product}
-                        />
+                        <ProductCard key={product.id} product={product} />
                       ))}
                     </ul>
                   </div>

@@ -1,14 +1,12 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
-import { getCart } from "../database/firebase";
+import useCart from "../hooks/useCart";
 
 export default function CartStatus() {
-  const { uid } = useAuthContext();
-
-  const { data: products } = useQuery(["cart"], () => getCart(uid));
+  const {
+    cartObj: { data: products },
+  } = useCart();
   return (
     <Link to="cart" className="mr-4 mt-2 relative">
       <ShoppingCartIcon className="h-8 w-8 text-gray-600" />

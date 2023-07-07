@@ -1,28 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { RadioGroup } from "@headlessui/react";
-import { useAuthContext } from "../context/AuthContext";
-import { addOrUpdateCart } from "../database/firebase";
+import useCart from "../hooks/useCart";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function ProductDetail() {
-  const { uid } = useAuthContext();
-
   const {
     state: {
       product: { id, name, category, price, options, desc, imgSrc },
     },
   } = useLocation();
   const [selected, setSelected] = useState("");
+  const [toast, setToast] = useState("");
+  const { addOrUpdateToCart } = useCart();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [toast]);
 
   const onClick = (e) => {
     e.preventDefault();
     const product = { id, name, price, options: selected, quantity: 1 };
-    addOrUpdateCart(uid, product);
+    addOrUpdateToCart.mutate(product, {
+      onSuccess: () => {
+        setToast(true);
+      },
+    });
   };
 
   return (
@@ -119,6 +131,34 @@ export default function ProductDetail() {
                   장바구니에 담기
                 </button>
               </div>
+              {toast && (
+                <div className="flex justify-center">
+                  <div
+                    id="toast-success"
+                    className="flex items-center w-1/2 p-4 text-gray-500 bg-white rounded-lg shadow"
+                  >
+                    <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg">
+                      <svg
+                        aria-hidden="true"
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span className="sr-only">체크 아이콘</span>
+                    </div>
+                    <div className="ml-3 text-sm font-normal">
+                      장바구니에 추가되었습니다
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
