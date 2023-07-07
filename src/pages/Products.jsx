@@ -1,14 +1,11 @@
 import React, { useEffect, useState, memo } from "react";
-import { getProducts } from "../database/firebase";
-import { useQuery } from "@tanstack/react-query";
 import Product from "./Product";
+import useProducts from "../hooks/useProducts";
 
 const Products = memo(function Products() {
   const {
-    isLoading,
-    isError,
-    data: products,
-  } = useQuery(["products"], getProducts);
+    productsObj: { isLoading, isError, data: products },
+  } = useProducts();
 
   // const [products, setProducts] = useState({});
 
@@ -18,8 +15,6 @@ const Products = memo(function Products() {
   //     setProducts(products);
   //   })();
   // }, []);
-
-  console.log(products);
 
   return (
     <div className="bg-white">

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Products from "./Products";
-import { getProducts } from "../database/firebase";
+import useProducts from "../hooks/useProducts";
 
 export default function Home() {
-  const { data: products } = useQuery(["products"], getProducts);
+  const {
+    productsObj: { data: products },
+  } = useProducts();
 
   const [curr, setCurr] = useState(0);
 

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-import { addProduct } from "../database/firebase";
+import useProducts from "../hooks/useProducts";
 
 export default function Admin() {
   const [values, setValues] = useState({ category: "상의" });
   const [dragActive, setDragActive] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [toast, setToast] = useState(false);
+  const { addProduct } = useProducts();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -71,9 +72,12 @@ export default function Admin() {
 
   const handleSubmit = function (e) {
     e.preventDefault();
-    addProduct(values);
-    setValues({});
-    setToast(true);
+    addProduct.mutate(values, {
+      onSuccess: () => {
+        setValues({});
+        setToast(true);
+      },
+    });
   };
 
   return (
