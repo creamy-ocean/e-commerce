@@ -68,6 +68,14 @@ export default function Home() {
       </div>
 
       <Products />
+      <footer className="w-100 h-36 flex justify-center items-center text-gray-500">
+        <a
+          href="https://www.flaticon.com/free-icons/online-shop"
+          title="online shop icons"
+        >
+          Online shop icons created by Royyan Wijaya - Flaticon
+        </a>
+      </footer>
     </div>
   );
 }
