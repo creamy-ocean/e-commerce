@@ -43,6 +43,7 @@ export default function Home() {
             products.map((product) => {
               return (
                 <img
+                  key={product.id}
                   src={product.imgSrc}
                   alt={product.name}
                   className="cover"
@@ -56,6 +57,7 @@ export default function Home() {
               products.map((product, index) => {
                 return (
                   <div
+                    key={product.id}
                     onClick={() => setCurr(index)}
                     className={`transition-all w-3 h-3 bg-white rounded-full cursor-pointer ${
                       curr === index ? "p-2" : "bg-opacity-50"

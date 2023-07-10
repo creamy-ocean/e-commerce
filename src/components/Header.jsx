@@ -29,11 +29,9 @@ export default function Example() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Link to="/">
-            <a className="-m-1.5 p-1.5">
-              <span className="sr-only">로고</span>
-              <BuildingStorefrontIcon className="h-8 w-auto text-blue-900" />
-            </a>
+          <Link to="/" className="-m-1.5 p-1.5">
+            <span className="sr-only">로고</span>
+            <BuildingStorefrontIcon className="h-8 w-auto text-blue-900" />
           </Link>
         </div>
         <div className="flex gap-x-1 text-sm font-semibold leading-6 text-gray-900">
@@ -59,7 +57,7 @@ export default function Example() {
           {!user ? (
             <a
               onClick={login}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
             >
               로그인
             </a>
@@ -95,17 +93,16 @@ export default function Example() {
                       {user.isAdmin && (
                         <Menu.Item>
                           {({ active }) => (
-                            <Link to="admin">
-                              <a
-                                className={classNames(
-                                  active
-                                    ? "bg-gray-100 text-gray-900 cursor-pointer"
-                                    : "text-gray-700",
-                                  "block px-4 py-2 text-sm"
-                                )}
-                              >
-                                어드민
-                              </a>
+                            <Link
+                              to="admin"
+                              className={classNames(
+                                active
+                                  ? "bg-gray-100 text-gray-900 cursor-pointer"
+                                  : "text-gray-700",
+                                "block px-4 py-2 text-sm"
+                              )}
+                            >
+                              어드민
                             </Link>
                           )}
                         </Menu.Item>
@@ -161,7 +158,7 @@ export default function Example() {
                 {!user ? (
                   <a
                     onClick={login}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 cursor-pointer"
                   >
                     로그인
                   </a>

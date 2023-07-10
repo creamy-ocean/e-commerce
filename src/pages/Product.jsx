@@ -20,7 +20,6 @@ export default function Product({
           <h3 className="text-sm text-gray-700">
             <a
               onClick={() => {
-                console.log(product);
                 navigate(`/products/${id}`, { state: { product } });
               }}
             >

@@ -7,9 +7,7 @@ import {
 export default function useProducts() {
   const queryClient = useQueryClient();
 
-  const productsObj = useQuery(["products"], getAllProducts, {
-    staleTime: 60 * 1000,
-  });
+  const productsObj = useQuery(["products"], getAllProducts);
 
   const addProduct = useMutation((product) => addNewProduct(product), {
     onSuccess: () => {
