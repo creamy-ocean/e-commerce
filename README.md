@@ -5,9 +5,9 @@
   - 기본적으로 이미지가 자동 전환되며 화살표 버튼을 통해 수동 전환도 가능함
   ![쇼핑몰_1](https://github.com/creamy-ocean/e-commerce/assets/93719660/0f3d681f-37d7-485e-bb97-92e42737b82c)
 * 장바구니
-  - '장바구니에 담기' 버튼을 통해 상품을 장바구니에 담을 수 있음
+  - 옵션을 선택한 뒤 상품을 장바구니에 담을 수 있음
   ![쇼핑몰_2](https://github.com/creamy-ocean/e-commerce/assets/93719660/6db79e3e-023e-454a-a80f-a291664f72dc)
-  - 장바구니에 담긴 상품들의 가격이 실시간으로 계산됨
+  - 상품의 개수를 조정할 때마다 가격이 실시간으로 계산됨
   ![쇼핑몰_3](https://github.com/creamy-ocean/e-commerce/assets/93719660/ff6d9992-1bf8-4299-aa7e-e8e9a3f2fd78)
 * 새로운 상품 추가
   - 관리자 계정으로 로그인 시 관리자 페이지를 통해 새로운 상품을 추가할 수 있음
