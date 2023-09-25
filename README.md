@@ -1,5 +1,20 @@
 # 나만의 쇼핑몰
 
+## 프로젝트 소개
+> React.js와 Firebase를 이용해 제작한 쇼핑몰 웹 사이트입니다
+
+<br/>
+
+## 제작 계기
+- React Query의 데이터 캐싱 기능을 사용해보고 싶어서 장바구니 기능이 포함된 쇼핑몰 사이트를 제작했습니다
+
+<br/>
+
+## 배포 링크
+[https://co-e-commerce.netlify.app/](https://co-e-commerce.netlify.app/)
+
+<br/>
+
 ## 기능
 * 이미지 애니메이션
   - 기본적으로 이미지가 자동 전환되며 화살표 버튼을 통해 수동 전환도 가능함
