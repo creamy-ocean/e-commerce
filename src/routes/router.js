@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import ProductDetail from "../pages/ProductDetail";
 import Products from "../pages/Products";
 import Root from "../pages/Root";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +15,22 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
-      { path: "/cart", element: <Cart /> },
-      { path: "/admin", element: <Admin /> },
+      {
+        path: "/cart",
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRoute adminRequired>
+            <Admin />
+          </ProtectedRoute>
+        ),
+      },
       { path: "/products", element: <Products /> },
       { path: "/products/:id", element: <ProductDetail /> },
     ],
