@@ -71,6 +71,7 @@ export default function Example() {
                       className="h-8 w-8 rounded-full"
                       src={user.photoURL}
                       alt={user.displayName}
+                      referrerPolicy="no-referrer"
                     />
                     <ChevronDownIcon
                       className="-mr-1 h-5 w-5 text-gray-400"
