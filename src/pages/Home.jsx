@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-1/2 bg-gray-100 relative">
-      <div className="absolute inset-0 p-40 flex items-center justify-between">
+      <div className="absolute inset-0 px-80 flex items-center justify-between">
         <ChevronLeftIcon
           onClick={prev}
           className="w-10 h-10 text-gray-300 cursor-pointer"
@@ -34,9 +34,9 @@ export default function Home() {
           className="w-10 h-10 text-gray-300 cursor-pointer"
         />
       </div>
-      <div className="relative max-w-xs m-auto overflow-hidden rounded-lg">
+      <div className="h-full relative max-w-xs m-auto overflow-hidden rounded-lg">
         <div
-          className="flex transition-transform ease-in-out duration-1000"
+          className="flex h-full transition-transform ease-in-out duration-1000"
           style={{ transform: `translateX(-${curr * 100}%)` }}
         >
           {products &&
@@ -46,7 +46,7 @@ export default function Home() {
                   key={product.id}
                   src={product.imgSrc}
                   alt={product.name}
-                  className="cover"
+                  className="w-full h-full object-cover flex-shrink-0"
                 />
               );
             })}
